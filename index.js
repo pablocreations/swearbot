@@ -1,19 +1,7 @@
-import "./server.js";
-import express from "express";
-import { Client, GatewayIntentBits } from "discord.js";
-import leoProfanity from "leo-profanity";
+// index.js
+const { Client, GatewayIntentBits } = require("discord.js");
+require("dotenv").config();
 
-// -------------------- KEEP BOT ALIVE --------------------
-const app = express();
-app.get("/", (req, res) => res.send("Bot is alive ✅"));
-app.listen(3000, () => console.log("🌐 Keep-alive web server running"));
-
-
-// -------------------- SETUP PROFANITY FILTER --------------------
-leoProfanity.loadDictionary();
-
-
-// -------------------- DISCORD CLIENT --------------------\
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -22,23 +10,33 @@ const client = new Client({
   ]
 });
 
-client.once("ready", () => {
+// ✅ Bot Ready
+client.once("clientReady", () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
+
+  // Shows online status
+  client.user.setPresence({
+    activities: [{ name: "Filtering bad words 😐", type: 0 }],
+    status: "online"
+  });
 });
 
+// ✅ List of banned words
+const bannedWords = ["badword1", "badword2", "badword3"]; // <-- Add more words here
 
-// -------------------- MESSAGE HANDLER --------------------
-client.on("messageCreate", async (message) => {
+// ✅ Message Filter
+client.on("messageCreate", (message) => {
   if (message.author.bot) return;
 
-  const msg = message.content;
+  const msg = message.content.toLowerCase();
 
-  if (leoProfanity.check(msg)) {
-    await message.delete().catch(() => {});
-    await message.channel.send(`🚫 Hey <@${message.author.id}>! Watch your language!`);
+  if (bannedWords.some(word => msg.includes(word))) {
+    message.delete().catch(() => {});
+    message.channel.send(`${message.author}, Watch your language 😐`).then(msg => {
+      setTimeout(() => msg.delete().catch(() => {}), 3000);
+    });
   }
 });
 
-
-// -------------------- LOGIN --------------------
+// ✅ Login
 client.login(process.env.TOKEN);
