@@ -16,7 +16,8 @@ const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,            // connect to servers
     GatewayIntentBits.GuildMessages,     // read messages
-    GatewayIntentBits.MessageContent     // necessary to detect message content
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildPresences// necessary to detect message content
   ]
 });
 
