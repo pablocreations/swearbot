@@ -1,12 +1,14 @@
-import express from "express";
-
+// server.js
+const express = require("express");
 const app = express();
 
+// Homepage route for uptime checks
 app.get("/", (req, res) => {
-  res.send("Bot is alive!");
+  res.send("✅ Bot is alive and running!");
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log("✅ Server is running on port " + port);
+// Render uses a dynamic port, so we cannot hardcode 3000
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🌍 Web server running on port ${PORT}`);
 });
