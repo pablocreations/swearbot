@@ -1,4 +1,5 @@
-// index.js
+require("./server.js"); // keep-alive web server
+
 const { Client, GatewayIntentBits } = require("discord.js");
 require("dotenv").config();
 
