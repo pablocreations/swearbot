@@ -2,7 +2,6 @@
   "name": "swearbot",
   "version": "1.0.0",
   "description": "Anti-swear moderation bot",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
