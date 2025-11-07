@@ -1,31 +1,30 @@
-// Keep-alive web server (REQUIRED for Render)
+// Keep-alive server (required for Render)
 require("./server.js");
 
-// Load .env variables
+// Load .env
 require("dotenv").config();
 
-// Discord bot setup
+// Discord
 const { Client, GatewayIntentBits } = require("discord.js");
 const Filter = require("leo-profanity");
 
-// Load default bad word dictionary
+// Load bad words dictionary
 Filter.loadDictionary();
 
-// Create bot client with required intents
+// Create Bot Client
 const client = new Client({
   intents: [
-    GatewayIntentBits.Guilds,            // connect to servers
-    GatewayIntentBits.GuildMessages,     // read messages
-    GatewayIntentBits.MessageContent,
-    GatewayIntentBits.GuildPresences// necessary to detect message content
+    GatewayIntentBits.Guilds,            // Connect to servers
+    GatewayIntentBits.GuildMessages,     // Read messages
+    GatewayIntentBits.MessageContent     // Detect message content
   ]
 });
 
-// When bot is ready
+// On bot ready
 client.once("ready", () => {
   console.log(`🤖 Logged in as ${client.user.tag}`);
 
-  // Make bot actually show online
+  // Show bot online
   client.user.setPresence({
     status: "online",
     activities: [
@@ -37,19 +36,16 @@ client.once("ready", () => {
   });
 });
 
-// Filter messages
+// Filter Messages
 client.on("messageCreate", (message) => {
   if (message.author.bot) return;
 
   if (Filter.check(message.content)) {
     message.delete().catch(() => {});
-    
     message.channel.send(`⚠️ ${message.author}, watch your language.`)
-      .then(msg => {
-        setTimeout(() => msg.delete().catch(() => {}), 3000);
-      });
+      .then(msg => setTimeout(() => msg.delete().catch(() => {}), 3000));
   }
 });
 
-// Login bot using token from secrets
+// Login Bot
 client.login(process.env.TOKEN);
