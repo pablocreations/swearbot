@@ -1,3 +1,4 @@
+import "./server.js";
 import express from "express";
 import { Client, GatewayIntentBits } from "discord.js";
 import leoProfanity from "leo-profanity";
