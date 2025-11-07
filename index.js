@@ -13,7 +13,7 @@ app.listen(3000, () => console.log("🌐 Keep-alive web server running"));
 leoProfanity.loadDictionary();
 
 
-// -------------------- DISCORD CLIENT --------------------
+// -------------------- DISCORD CLIENT --------------------\
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
