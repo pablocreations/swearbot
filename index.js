@@ -3,7 +3,7 @@ require("./server.js"); // <-- This keeps the web server running
 const { Client, GatewayIntentBits } = require("discord.js");
 const Filter = require("leo-profanity");
 
-// ---- Discord Client ----
+// ---- Discord Client ---
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
